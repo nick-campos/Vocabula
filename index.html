@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Inglês</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Diário de Inglês</h1>
+
+    <form id="entryForm">
+        <input type="text" id="title" placeholder="Palavra ou Frase" required>
+
+        <select id="type">
+            <option value="Vocabulary">Vocabulário</option>
+            <option value="Grammar">Gramática</option>
+            <option value="Listening">Escuta</option>
+            <option value="Reading">Leitura</option>
+        </select>   
+
+        <textarea id="context" placeholder="Contexto ou Exemplo..." required></textarea>
+
+        <button type="submit">Salvar</button>
+    </form>    
+
+    <div id="entriesList"></div>
+
+    <script src="script.js" defer></script>
+    
+</body>
+</html>
