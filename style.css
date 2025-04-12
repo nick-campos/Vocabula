@@ -7,7 +7,7 @@ form {
     text-align: center;
 }
 
-input#title {
+input {
     border-radius: 20px;
     padding: 10px;
     border: 2px solid #ddd;
@@ -34,4 +34,11 @@ input#title {
 #type:focus {
     border-color: #007bff;
     background-color: #e6f7ff;
+}
+
+textarea {
+    border-radius: 20px;
+    padding: 5px;
+    border: 2px solid #ddd;
+    width: 250px;
 }
