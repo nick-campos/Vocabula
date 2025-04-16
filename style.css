@@ -21,7 +21,6 @@ input {
     background-color: #fff;
     border: 2px solid #ddd;
     border-radius: 5px;
-    color: #333;
     outline: none;
     width: 170px;
     transition: border-color 0.3s ease, background-color 0.3s ease;
@@ -41,4 +40,19 @@ textarea {
     padding: 5px;
     border: 2px solid #ddd;
     width: 250px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1em;
+    position: relative;
+    top: 30px;
 }
+
+button {
+    padding: 5px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+
