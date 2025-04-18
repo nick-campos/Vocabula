@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(66, 66, 66);
+}
+
 h1 {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -23,11 +27,12 @@ input {
     border-radius: 5px;
     outline: none;
     width: 170px;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 #type:hover {
-    background-color: #f9f9f9;
+    background-color: gray;
+    transition: background-color 0.3s ease;
+    border: #000000;
 }
 
 #type:focus {
@@ -47,7 +52,7 @@ textarea {
     top: 30px;
 }
 
-button {
+.btn-um {
     padding: 5px;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
@@ -56,3 +61,30 @@ button {
     border-radius: 5px;
 }
 
+.btn-um:hover {
+    background-color: gray;
+    transition: background-color 0.3s ease;
+    cursor:pointer;
+    border: #000000;
+}
+
+.btn-um:active {
+    background-color: rgb(80, 80, 80);
+}
+
+div#entriesList {
+    padding: 1rem;
+    margin: 2rem;
+    background-color: #ddd;
+    box-shadow: 0 0 20px rgba(93, 93, 93, 0.2);
+    border-radius: 15px;
+    width: 350px;
+}
+
+.btn-dois {
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fff;
+    border: 2px solid;
+    border-radius: 7px;
+}

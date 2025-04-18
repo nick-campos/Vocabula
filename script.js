@@ -53,9 +53,8 @@ function loadEntries() {
             <strong>${entry.title}</strong> [${entry.type}]<br>
             <em>${entry.context}</em><br>
             <small>${new Date(entry.date).toLocaleString()}</small></br>
-            <button onclick="editEntry('${entry.id}')">Editar</button>
-            <button onclick="deleteEntry('${entry.id}')">Excluir</button>
-            <hr>`;
+            <button class="btn-dois" onclick="editEntry('${entry.id}')">Editar</button>
+            <button class="btn-tres" onclick="deleteEntry('${entry.id}')">Excluir</button>`;
         entrieslist.appendChild(div);
     })
 } //Cria blocos HTML com os dados salvos e mostra na tela
@@ -68,7 +67,7 @@ form.addEventListener("submit", (e) => {
         title: titleInput.value.trim(),
         type: typeSelect.value,
         context: contextInput.value.trim(),
-        date: new Date().toISOString
+        date: new Date().toISOString()
     };
 
     if (!entry.title) return; //Se o título estiver vazio, cancela
