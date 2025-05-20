@@ -22,9 +22,14 @@
         <textarea id="context" placeholder="Contexto ou Exemplo..." required></textarea>
 
         <button type="submit" class="btn-um">Salvar</button>
-    </form>    
+    </form>  
+    
+     <div class="view-options">
+        <img id="gridIcon" src="images/grid.png" alt="Visualizar em grade" onclick="setView('grid')" class="view-icon">
+        <img id="gridList" src="images/list.png" alt="Visualizar em lista" onclick="setView('list')" class="view-icon">
+    </div> 
 
-    <div id="entriesList"></div>
+    <div id="entriesList" class="view-grid"></div>
 
     <script src="script.js" defer></script>
     

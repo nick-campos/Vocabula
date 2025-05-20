@@ -2,7 +2,7 @@ const form = document.getElementById("entryForm");
 const titleInput = document.getElementById("title");
 const typeSelect = document.getElementById("type");
 const contextInput = document.getElementById("context");
-const entrieslist = document.getElementById("entriesList");
+const entriesList = document.getElementById("entriesList");
 
 let editingId = null;
 
@@ -45,17 +45,18 @@ function deleteEntry(id) {
 
 function loadEntries() {
     const entries = getEntries();
-    entrieslist.innerHTML = "";
+    entriesList.innerHTML = "";
 
     entries.forEach(entry => {
         const div = document.createElement("div");
+        div.classList.add("entry-card");
         div.innerHTML = `
             <strong>${entry.title}</strong> [${entry.type}]<br>
             <em>${entry.context}</em><br>
             <small>${new Date(entry.date).toLocaleString()}</small></br>
             <button class="btn-dois" onclick="editEntry('${entry.id}')">Editar</button>
             <button class="btn-tres" onclick="deleteEntry('${entry.id}')">Excluir</button>`;
-        entrieslist.appendChild(div);
+        entriesList.appendChild(div);
     })
 } //Cria blocos HTML com os dados salvos e mostra na tela
 
@@ -84,3 +85,13 @@ form.addEventListener("submit", (e) => {
 }); //Cria ou atualiza um item ao clicar em salvar
 
 loadEntries(); //Ao abrir a página, ele mosrta os intems salvos
+
+function setGridView() {
+    entriesList.classList.remove("view-list");
+    entriesList.classList.add("view-grid");
+}
+
+function setListView() {
+    entriesList.classList.remove("view-grid");
+    entriesList.classList.add("view-list");
+}
