@@ -3,6 +3,7 @@ const titleInput = document.getElementById("title");
 const typeSelect = document.getElementById("type");
 const contextInput = document.getElementById("context");
 const entriesList = document.getElementById("entriesList");
+const textarea = document.getElementById("textarea");
 
 let editingId = null;
 
@@ -91,3 +92,28 @@ form.addEventListener("submit", (e) => {
 }); //Cria ou atualiza um item ao clicar em salvar
 
 loadEntries(); //Ao abrir a página, ele mosrta os intems salvos
+
+form.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault(); 
+    
+    const entry = {
+        id: editingId || Date.now().toString(),
+        title: titleInput.value.trim(),
+        type: typeSelect.value,
+        context: contextInput.value.trim(),
+        date: new Date().toISOString(),
+    };
+
+    if(!entry.title) return;
+
+    if(editingId) {
+        updateEntry(entry);
+        editingId = null;
+    }else {
+        addEntry(entry);
+    }
+
+    loadEntries();
+    form.reset();
+}});
