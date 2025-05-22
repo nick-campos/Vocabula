@@ -48,16 +48,22 @@ function loadEntries() {
     entriesList.innerHTML = "";
 
     entries.forEach(entry => {
-        const div = document.createElement("div");
-        div.classList.add("entry-card");
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("card-wrapper");
+
+        const div = document.createElement("div")
+        div.classList.add("entry");
+        
         div.innerHTML = `
             <strong>${entry.title}</strong> [${entry.type}]<br>
             <em>${entry.context}</em><br>
             <small>${new Date(entry.date).toLocaleString()}</small></br>
             <button class="btn-dois" onclick="editEntry('${entry.id}')">Editar</button>
             <button class="btn-tres" onclick="deleteEntry('${entry.id}')">Excluir</button>`;
-        entriesList.appendChild(div);
-    })
+
+        wrapper.appendChild(div);
+        entriesList.appendChild(wrapper); //Adiciona o wrapper (que contém o card)
+    });
 } //Cria blocos HTML com os dados salvos e mostra na tela
 
 form.addEventListener("submit", (e) => {
@@ -85,13 +91,3 @@ form.addEventListener("submit", (e) => {
 }); //Cria ou atualiza um item ao clicar em salvar
 
 loadEntries(); //Ao abrir a página, ele mosrta os intems salvos
-
-function setGridView() {
-    entriesList.classList.remove("view-list");
-    entriesList.classList.add("view-grid");
-}
-
-function setListView() {
-    entriesList.classList.remove("view-grid");
-    entriesList.classList.add("view-list");
-}

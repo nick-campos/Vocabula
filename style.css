@@ -1,21 +1,48 @@
 body {
-    background-color: rgb(66, 66, 66);
+    background-color: #424242;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #f0f0f0;
+    overflow: scroll;
 }
 
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    padding: 20px;
+    font-size: 2rem;
+    color: black;
 }
 
 form {
-    text-align: center;
+    align-items: flex-start;    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
 }
 
-input {
+input, select, textarea {
+    border-radius: 20px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+}
+
+input, textarea {
+    width: 250px;
+}
+
+textarea {
     border-radius: 20px;
     padding: 10px;
     border: 2px solid #ddd;
     width: 250px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
 }
 
 #type {
@@ -43,54 +70,69 @@ input {
 
 textarea {
     border-radius: 20px;
-    padding: 5px;
+    padding: 10px;
     border: 2px solid #ddd;
     width: 250px;
-    resize: vertical;
+    height: 60px;
+    resize: none;
+    box-sizing: border-box;
     font-family: inherit;
     font-size: 1em;
-    position: relative;
-    top: 30px;
+    overflow-y: scroll;
 }
 
-.btn-um {
-    padding: 5px;
-    font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
+#entriesList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+#entriesList:empty {
+    display: none;
+}
+
+.card-wrapper {
     background-color: #fff;
+    color: black;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    width: calc(50% - 20px); /* 2 cards por linha, espaçamento gap: 20px */
+    box-sizing: border-box;
+}
+
+button {
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border-radius: 7px;
     border: 2px solid #c0c0c0;
-    border-radius: 5px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.507);
-}
-
-.btn-um:hover {
-    background-color: gray;
-    transition: background-color 0.3s ease;
+    background-color: #fff;
     cursor: pointer;
-    border: 2px solid #000000;
+    transition: background-color 0.3s ease;
+    margin: 5px 5px 0 0;
 }
 
-.btn-um:active {
+button:hover {
+    background-color: gray;
+    border-color: black;
+    color: white;
+}
+
+button:active {
     background-color: rgb(80, 80, 80);
 }
 
-#gridIcon {
-    width: 30px;
-    height: 30px;
-}
-
-#gridList {
-    width: 30px;
-    height: 30px;
+.entry button {
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 .entry-card {
-    background: #f1f1f1;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-    width: 300px;
-    margin: 0.5rem;
+    flex: 0 0 calc(50% - 20px);
+    box-sizing: border-box;
 }
 
 .view-grid {
@@ -112,54 +154,4 @@ textarea {
 
 .view-list .entry-card {
     width: 100%;
-}
-
-#entriesList {
-    background-color: transparent;
-    box-shadow: none;
-}
-
-div#entriesList {
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 1rem;
-    margin: 2rem;
-    background-color: #ddd;
-    box-shadow: 0 0 20px rgba(93, 93, 93, 0.2);
-    border-radius: 15px;
-    overflow: hidden;
-    max-width: 100%;
-}
-
-#entriesList:empty {
-    display: none;
-}
-
-.btn-dois {
-    padding: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #fff;
-    border: 2px solid #c0c0c0;
-    border-radius: 7px;
-}
-
-.btn-dois:hover {
-    background-color: gray;
-    transition: background-color 0.3s ease;
-    border: 2px solid #000000;
-    cursor: pointer;
-}
-
-.btn-tres {
-    padding: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #fff;
-    border: 2px solid #c0c0c0;
-    border-radius: 7px;
-}
-
-.btn-tres:hover {
-    background-color: gray;
-    transition: background-color 0.3s ease;
-    border: 2px solid #000000;
-    cursor: pointer;
 }
