@@ -1,10 +1,12 @@
 body {
-    background-color: #424242;
+    background: linear-gradient(135deg, #d0e4f7 0%,#0a77d5 0%,#0a77d5 23%,#539fe1 78%,#539fe1 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     color: #f0f0f0;
-    overflow: scroll;
 }
 
 h1 {
@@ -31,8 +33,8 @@ input, select, textarea {
     outline: none;
 }
 
-input, textarea {
-    width: 250px;
+input, select {
+    width: 200px;
 }
 
 textarea {
@@ -153,4 +155,20 @@ button:active {
 
 .view-list .entry-card {
     width: 100%;
+}
+
+@media (max-width: 600px) {
+
+    #type {
+        width: 120px;
+    }
+
+    input {
+        width: 115px;
+        font-size: 0.9rem;
+    }
+
+    textarea {
+        width: 200px;
+    }
 }
