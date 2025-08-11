@@ -102,6 +102,13 @@ textarea {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     width: calc(50% - 20px); /* 2 cards por linha, espaçamento gap: 20px */
     box-sizing: border-box;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform;
+}
+
+.card-wrapper:hover {
+    transform: translateY(-3px) scale(1.00);
 }
 
 button {
@@ -170,5 +177,9 @@ button:active {
 
     textarea {
         width: 200px;
+    }
+
+    #entriesList {
+        padding: 1px;
     }
 }
