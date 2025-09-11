@@ -193,4 +193,10 @@ button:active {
     #entriesList {
         padding: 1px;
     }
+
+    #darkMode {
+        margin-left: 70%;
+        width: 23%;
+        margin-top: 20px;
+    }
 }
