@@ -4,8 +4,15 @@ const typeSelect = document.getElementById("type");
 const contextInput = document.getElementById("context");
 const entriesList = document.getElementById("entriesList");
 const textarea = document.getElementById("textarea");
+const toggleButton = document.getElementById("darkMode");
+const body = document.body;
 
 let editingId = null;
+
+toggleButton.addEventListener("click", () => {
+    body.classList.toggle("modo-escuro");
+    body.classList.toggle("modo-claro");
+});
 
 function getEntries() {
     return JSON.parse(localStorage.getItem("english_diary_entries") || "[]");
