@@ -3,12 +3,10 @@ const titleInput = document.getElementById("title");
 const typeSelect = document.getElementById("type");
 const contextInput = document.getElementById("context");
 const entriesList = document.getElementById("entriesList");
-const textarea = document.getElementById("textarea");
 const toggleButton = document.getElementById("darkMode");
 const body = document.body;
 
 let editingId = null;
-
 
 //Dark mode
 toggleButton.addEventListener("click", () => {
@@ -16,69 +14,63 @@ toggleButton.addEventListener("click", () => {
     body.classList.toggle("modo-claro");
 });
 
-function getEntries() {
-    return JSON.parse(localStorage.getItem("english_diary_entries") || "[]");
-} //Le os dados do navegador. Se não houver nada, retorna uma lista vazia
+//Le os dados do navegador. Se não houver nada, retorna uma lista vazia
+const getEntries = () => JSON.parse(localStorage.getItem("english_diary_entries") || "[]");
 
-function saveEntries(entries) {
-    localStorage.setItem("english_diary_entries", JSON.stringify(entries));
-} //Pega a lista de aprendizados e salva no navegador 
+//Pega a lista de aprendizados e salva no navegador 
+const saveEntries = entries => localStorage.setItem("english_diary_entries", JSON.stringify(entries));
 
-function addEntry(entry) {
-    const entries = getEntries();
-    entries.unshift(entry);
+//Cria uma nova entrada e salva com as anteriores
+const addEntry = entry => saveEntries([entry, ...getEntries()]);
+
+//Substitui o item antigo pelo novo(baseado no id)
+const updateEntry = updatedEntry => {
+    const entries = getEntries().map(entry => entry.id === updatedEntry.id ? updatedEntry : entry);
     saveEntries(entries);
-} //Cria uma nova entrada e salva com as anteriores
+};
 
-function editEntry(id) {
-    const entry = getEntries().find(e => e.id === id);
-    if (entry) {
-        titleInput.value = entry.title;
-        typeSelect.value = entry.type;
-        contextInput.value = entry.context;
-        editingId = id;
-    }
-} //Preenche o formulário com os dados do item escolhido para editar
-
-function updateEntry(updateEntry) {
-    const entries = getEntries().map(entry =>
-        entry.id === updateEntry.id ? updateEntry : entry
-    );
-    saveEntries(entries);
-} //Substitui o item antigo pelo novo(baseado no id)
-
-function deleteEntry(id) {
-    const entries = getEntries().filter(entry => entry.id !== id);
-    saveEntries(entries);
+//Remove o item da lista
+const deleteEntry = id => {
+    saveEntries(getEntries().filter(entry => entry.id !== id));
     loadEntries(); //Atualiza a tela
-} //Remove o item da lista
+};
 
-function loadEntries() {
-    const entries = getEntries();
+//Preenche o formulário com os dados do item escolhido para editar
+const editEntry = id => {
+    const entry = getEntries().find(e => e.id === id);
+    if (!entry) return;
+    titleInput.value = entry.title;
+    typeSelect.value = entry.type;
+    contextInput.value = entry.context;
+    editingId = id;
+};
+
+//Cria blocos HTML com os dados salvos e mostra na tela
+const loadEntries = () => {
     entriesList.innerHTML = "";
-
-    entries.forEach(entry => {
+    getEntries().forEach(entry => {
         const wrapper = document.createElement("div");
-        wrapper.classList.add("card-wrapper");
+        wrapper.className = "card-wrapper";
 
-        const div = document.createElement("div")
-        div.classList.add("entry");
-        
+        const div = document.createElement("div");
+        div.className = "entry";
+        div.dataset.id = entry.id; //para delegação de eventos
+
         div.innerHTML = `
             <strong>${entry.title}</strong> [${entry.type}]<br>
             <em>${entry.context}</em><br>
-            <small>${new Date(entry.date).toLocaleString()}</small></br>
-            <button class="btn-dois" onclick="editEntry('${entry.id}')">Editar</button>
-            <button class="btn-tres" onclick="deleteEntry('${entry.id}')">Excluir</button>`;
+            <small>${new Date(entry.date).toLocaleString()}</small><br>
+            <button class="btn-dois edit-btn">Editar</button>
+            <button class="btn-tres delete-btn">Excluir</button>
+        `;
 
         wrapper.appendChild(div);
         entriesList.appendChild(wrapper); //Adiciona o wrapper (que contém o card)
     });
-} //Cria blocos HTML com os dados salvos e mostra na tela
+};
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault(); //Evita o recarregamento da página
-
+//Cria ou atualiza um item
+const handleSubmit = () => {
     const entry = {
         id: editingId || Date.now().toString(),
         title: titleInput.value.trim(),
@@ -98,31 +90,31 @@ form.addEventListener("submit", (e) => {
 
     form.reset(); //Limpa o formulário
     loadEntries(); //Atualiza a lista
-}); //Cria ou atualiza um item ao clicar em salvar
+};
 
-loadEntries(); //Ao abrir a página, ele mosrta os intems salvos
+//Cria ou atualiza um item ao clicar em salvar
+form.addEventListener("submit", e => {
+    e.preventDefault(); //Evita o recarregamento da página
+    handleSubmit();
+});
 
-form.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault(); 
-    
-    const entry = {
-        id: editingId || Date.now().toString(),
-        title: titleInput.value.trim(),
-        type: typeSelect.value,
-        context: contextInput.value.trim(),
-        date: new Date().toISOString(),
-    };
-
-    if(!entry.title) return;
-
-    if(editingId) {
-        updateEntry(entry);
-        editingId = null;
-    }else {
-        addEntry(entry);
+//Cria ou atualiza um item ao apertar Enter
+form.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSubmit();
     }
+});
 
-    loadEntries();
-    form.reset();
-}});
+//Delegação de eventos para editar/excluir
+entriesList.addEventListener("click", e => {
+    const card = e.target.closest(".entry");
+    if (!card) return;
+    const id = card.dataset.id;
+
+    if (e.target.classList.contains("edit-btn")) editEntry(id);
+    if (e.target.classList.contains("delete-btn")) deleteEntry(id);
+});
+
+//Ao abrir a página, ele mostra os itens salvos
+loadEntries();

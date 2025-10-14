@@ -1,39 +1,73 @@
+/* ------------------------
+   Estilos Globais
+------------------------ */
 body {
     background: #F9FAFB;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .modo-claro {
     background-color: #F9FAFB;
     color: #1F2937;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .modo-escuro {
     background-color: #1F2937;
     color: #F9FAFB;
-    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ------------------------
+   Header e botão Modo Escuro
+------------------------ */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
 }
 
 #darkMode {
-    margin-left: 90%;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 7px;
+    border: 2px solid #c0c0c0;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+#darkMode:hover {
+    background-color: gray;
+    border-color: black;
+    color: white;
+}
+
+#darkMode:active {
+    background-color: rgb(80, 80, 80);
+}
+
+/* ------------------------
+   Título
+------------------------ */
 h1 {
     text-align: center;
-    padding: 20px;
+    padding: 10px 20px;
     font-size: 2rem;
 }
 
+/* ------------------------
+   Formulário
+------------------------ */
 form {
-    align-items: flex-start;    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin-bottom: 30px;
+    align-items: flex-start;
 }
 
 input, select, textarea {
@@ -42,6 +76,8 @@ input, select, textarea {
     border: 2px solid #ccc;
     font-size: 1rem;
     outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
 }
 
 input, select {
@@ -49,31 +85,26 @@ input, select {
 }
 
 textarea {
-    border-radius: 20px;
-    padding: 10px;
-    border: 2px solid #ddd;
     width: 250px;
-    resize: vertical;
-    font-family: inherit;
-    font-size: 1rem;
+    height: 60px;
+    resize: none;
 }
 
+/* Estilos específicos do select */
 #type {
+    width: 170px;
     padding: 5px;
     font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
     background-color: #fff;
     border: 2px solid #c0c0c0;
-    border-radius: 5px;
     outline: none;
-    width: 170px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #type:hover {
-    background-color: gray;
-    transition: background-color 0.3s ease;
-    border: #000000;
-    cursor: pointer;
+    background-color: #e0e0e0;
 }
 
 #type:focus {
@@ -81,47 +112,9 @@ textarea {
     background-color: #e6f7ff;
 }
 
-textarea {
-    border-radius: 20px;
-    padding: 10px;
-    border: 2px solid #ddd;
-    width: 250px;
-    height: 60px;
-    resize: none;
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: 1em;
-}
-
-#entriesList {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-}
-
-#entriesList:empty {
-    display: none;
-}
-
-.card-wrapper {
-    background-color: #fff;
-    color: black;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-    width: calc(50% - 20px); /* 2 cards por linha, espaçamento gap: 20px */
-    box-sizing: border-box;
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-                box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: transform;
-}
-
-.card-wrapper:hover {
-    transform: translateY(-3px) scale(1.00);
-}
-
+/* ------------------------
+   Botões do formulário
+------------------------ */
 button {
     padding: 8px 12px;
     font-size: 14px;
@@ -130,8 +123,7 @@ button {
     border: 2px solid #c0c0c0;
     background-color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 5px 5px 0 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 button:hover {
@@ -144,14 +136,34 @@ button:active {
     background-color: rgb(80, 80, 80);
 }
 
-.entry button {
-    margin-bottom: 10px;
-    margin-right: 10px;
+/* ------------------------
+   Lista de Entradas / Cards
+------------------------ */
+#entriesList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
 }
 
-.entry-card {
-    flex: 0 0 calc(50% - 20px);
+#entriesList:empty {
+    display: none;
+}
+
+.entry-card, .card-wrapper {
+    background-color: #fff;
+    color: black;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    width: calc(50% - 20px);
     box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-wrapper:hover {
+    transform: translateY(-3px) scale(1.0);
 }
 
 .view-grid {
@@ -175,26 +187,17 @@ button:active {
     width: 100%;
 }
 
-@media (min-width: 601px) {
-
-#darkMode {
-    width: 40px;
-    padding-top: 2%;
-    padding-left: 110px;
-    
-    }
-}
-
-
+/* ------------------------
+   Responsividade mobile
+------------------------ */
 @media (max-width: 600px) {
+    input, select {
+        width: 115px;
+        font-size: 0.9rem;
+    }
 
     #type {
         width: 120px;
-    }
-
-    input {
-        width: 115px;
-        font-size: 0.9rem;
     }
 
     textarea {
@@ -202,11 +205,13 @@ button:active {
     }
 
     #entriesList {
-        padding: 1px;
+        padding: 10px;
     }
 
     #darkMode {
-        margin-left: 80%;
-        width: 10%;
+        padding: 4px 8px;   
+        font-size: 10px;    
+        border-radius: 5px; 
+        width: auto;       
     }
 }

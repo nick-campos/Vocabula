@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diário de Inglês</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diário de Inglês</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
-    <img id="darkMode" src="IMG\Dark Mode Button.png" alt="Dark Mode Button">
-    
-<body class="modo-claro"> 
-
+<body class="modo-claro">
+  <header class="header">
     <h1>Diário de Inglês</h1>
+    <button id="darkMode" type="button" aria-label="Alternar modo escuro">🌙 Modo escuro</button>
+  </header>
 
-    <form id="entryForm">
-        <input type="text" id="title" placeholder="Palavra ou Frase" required>
+  <main>
+    <section class="entry-section">
+      <form id="entryForm" class="entry-form">
+        <label for="title" class="visually-hidden">Palavra ou Frase</label>
+        <input type="text" id="title" name="title" placeholder="Palavra ou Frase" required />
 
-        <select id="type">
-            <option value="Vocabulary">Vocabulário</option>
-            <option value="Grammar">Gramática</option>
-            <option value="Listening">Escuta</option>
-            <option value="Reading">Leitura</option>
-        </select>   
+        <label for="type" class="visually-hidden">Tipo de entrada</label>
+        <select id="type" name="type" required>
+          <option value="Vocabulary">Vocabulário</option>
+          <option value="Grammar">Gramática</option>
+          <option value="Listening">Escuta</option>
+          <option value="Reading">Leitura</option>
+        </select>
 
-        <textarea id="context" placeholder="Contexto ou Exemplo..." required></textarea>
+        <label for="context" class="visually-hidden">Contexto ou Exemplo</label>
+        <textarea id="context" name="context" placeholder="Contexto ou Exemplo..." required></textarea>
 
         <button type="submit" class="btn-um">Salvar</button>
-    </form>  
+      </form>
+    </section>
 
-    <div id="entriesList" class="view-grid"></div>
+    <section id="entriesList" class="entries view-grid" aria-live="polite">
+      <!-- Entradas serão exibidas aqui -->
+    </section>
+  </main>
 
-    <script src="script.js" defer></script>
-    
+  <script src="script.js" defer></script>
 </body>
 </html>
