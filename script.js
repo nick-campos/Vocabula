@@ -9,6 +9,8 @@ const body = document.body;
 
 let editingId = null;
 
+
+//Dark mode
 toggleButton.addEventListener("click", () => {
     body.classList.toggle("modo-escuro");
     body.classList.toggle("modo-claro");
