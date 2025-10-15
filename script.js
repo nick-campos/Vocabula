@@ -1,3 +1,5 @@
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+
 const form = document.getElementById("entryForm");
 const titleInput = document.getElementById("title");
 const typeSelect = document.getElementById("type");
@@ -5,6 +7,9 @@ const contextInput = document.getElementById("context");
 const entriesList = document.getElementById("entriesList");
 const toggleButton = document.getElementById("darkMode");
 const body = document.body;
+const supabaseUrl = 'https://apirozkueuepmxbaplwb.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwaXJvemt1ZXVlcG14YmFwbHdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MzU3MzQsImV4cCI6MjA3NjAxMTczNH0.ZUI4iHJZQa5NE8-YbnuF7w8igDpbzduYI3Jvbrbso2k';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 let editingId = null;
 
@@ -14,25 +19,70 @@ toggleButton.addEventListener("click", () => {
     body.classList.toggle("modo-claro");
 });
 
-//Le os dados do navegador. Se não houver nada, retorna uma lista vazia
-const getEntries = () => JSON.parse(localStorage.getItem("english_diary_entries") || "[]");
+//Le os dados do navegador. Retorna uma lista de entradas
+const getEntries = async () => {
+    const {data, error} = await supabase
+    .from("entries")
+    .select("*")
+    .order("date", {ascending: false}); //Mais recente primeiro
+
+    if (error) {
+        console.error("Erro ao buscar entradas:", error);
+        return [];
+    }
+    return data || [];
+};
 
 //Pega a lista de aprendizados e salva no navegador 
 const saveEntries = entries => localStorage.setItem("english_diary_entries", JSON.stringify(entries));
 
-//Cria uma nova entrada e salva com as anteriores
-const addEntry = entry => saveEntries([entry, ...getEntries()]);
+//Cria uma nova entrada e salva no Supabase
+const addEntry = async (entry) => {
+    const {error} = await supabase
+        .from("entries")
+        .insert([entry]);
 
-//Substitui o item antigo pelo novo(baseado no id)
-const updateEntry = updatedEntry => {
-    const entries = getEntries().map(entry => entry.id === updatedEntry.id ? updatedEntry : entry);
-    saveEntries(entries);
+    if (error) {
+        console.error("Erro ao adicionar entrada:", error);
+    } else {
+        console.log("Entrada adicioanda com sucesso!");
+        loadEntries(); //Atualiza a lista na tela
+    }
 };
 
-//Remove o item da lista
-const deleteEntry = id => {
-    saveEntries(getEntries().filter(entry => entry.id !== id));
-    loadEntries(); //Atualiza a tela
+//Substitui o item antigo pelo novo(baseado no id)
+const updateEntry = async (updateEntry) => {
+    const {error} = await supabase
+        .from("entries")
+        .update({
+            title: updateEntry.title,
+            type: updateEntry.type,
+            context: updateEntry.context,
+            date: updateEntry.date
+        })
+        .eq("id", updateEntry.id);
+
+    if (error) {
+        console.error("Error ao atualizar entrada:", error);
+    } else {
+        console.log("Entrada atualizada com sucesso!");
+        loadEntries(); //Atualiza a tela
+    }
+};
+
+//Remove o item da lista no SUpabase
+const deleteEntry = async (id) => {
+    const {error} = await supabase
+        .from("entries")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        console.error("Erro ao excluir entrada:", error);
+    } else {
+        console.log("Entrada excluída com sucesso!");
+        loadEntries(); //Atualiza a tela
+    }    
 };
 
 //Preenche o formulário com os dados do item escolhido para editar
@@ -46,8 +96,11 @@ const editEntry = id => {
 };
 
 //Cria blocos HTML com os dados salvos e mostra na tela
-const loadEntries = () => {
+const loadEntries = async () => {
     entriesList.innerHTML = "";
+
+    const entries = await getEntries(); //Aguarda os dados do Supabase
+
     getEntries().forEach(entry => {
         const wrapper = document.createElement("div");
         wrapper.className = "card-wrapper";
@@ -70,7 +123,7 @@ const loadEntries = () => {
 };
 
 //Cria ou atualiza um item
-const handleSubmit = () => {
+const handleSubmit = async () => {
     const entry = {
         id: editingId || Date.now().toString(),
         title: titleInput.value.trim(),
@@ -82,7 +135,7 @@ const handleSubmit = () => {
     if (!entry.title) return; //Se o título estiver vazio, cancela
 
     if (editingId) {
-        updateEntry(entry); //Atualiza
+        await updateEntry(entry); //Atualiza
         editingId = null;
     } else {
         addEntry(entry); //Adiciona novo
