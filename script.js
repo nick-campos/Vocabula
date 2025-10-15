@@ -1,4 +1,4 @@
-import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+import {createClient} from "https://esm.sh/@supabase/supabase-js"
 
 const form = document.getElementById("entryForm");
 const titleInput = document.getElementById("title");
@@ -25,6 +25,8 @@ const getEntries = async () => {
     .from("entries")
     .select("*")
     .order("date", {ascending: false}); //Mais recente primeiro
+
+    console.log("Entradas carregadas:", data);
 
     if (error) {
         console.error("Erro ao buscar entradas:", error);
@@ -58,7 +60,7 @@ const updateEntry = async (updateEntry) => {
             title: updateEntry.title,
             type: updateEntry.type,
             context: updateEntry.context,
-            date: updateEntry.date
+            //date: updateEntry.date
         })
         .eq("id", updateEntry.id);
 
@@ -86,8 +88,9 @@ const deleteEntry = async (id) => {
 };
 
 //Preenche o formulário com os dados do item escolhido para editar
-const editEntry = id => {
-    const entry = getEntries().find(e => e.id === id);
+const editEntry = async id => {
+    const entries = await getEntries();
+    const entry = entries.find(e => e.id === id);
     if (!entry) return;
     titleInput.value = entry.title;
     typeSelect.value = entry.type;
@@ -101,7 +104,7 @@ const loadEntries = async () => {
 
     const entries = await getEntries(); //Aguarda os dados do Supabase
 
-    getEntries().forEach(entry => {
+    entries.forEach(entry => {
         const wrapper = document.createElement("div");
         wrapper.className = "card-wrapper";
 
@@ -124,25 +127,25 @@ const loadEntries = async () => {
 
 //Cria ou atualiza um item
 const handleSubmit = async () => {
+    const now = new Date();
     const entry = {
-        id: editingId || Date.now().toString(),
         title: titleInput.value.trim(),
         type: typeSelect.value,
         context: contextInput.value.trim(),
-        date: new Date().toISOString()
+        date: new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString()
     };
 
     if (!entry.title) return; //Se o título estiver vazio, cancela
 
     if (editingId) {
+        entry.id = editingId; // Adiciona o ID
         await updateEntry(entry); //Atualiza
         editingId = null;
     } else {
-        addEntry(entry); //Adiciona novo
+        await addEntry(entry); //Adiciona novo
     }
 
     form.reset(); //Limpa o formulário
-    loadEntries(); //Atualiza a lista
 };
 
 //Cria ou atualiza um item ao clicar em salvar
